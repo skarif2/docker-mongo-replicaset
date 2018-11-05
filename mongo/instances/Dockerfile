@@ -1,7 +1,7 @@
-FROM mongo
+FROM mongo:4
 
 # Create app directory
-WORKDIR /configs
+WORKDIR /usr/src/configs
 
 # Copy config files
 COPY mongo.conf .

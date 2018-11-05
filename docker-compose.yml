@@ -2,11 +2,11 @@ version: '3'
 services:
   mongo-rs-01:
     image: mongo:4
-    build: ./mongo
+    build: ./mongo/instances
     ports:
       - 27017:27017
     volumes:
-      - ./mongo/rs-01:/data/db
+      - ./mongo/instances/rs-01:/data/db
     depends_on:
       - mongo-rs-02
       - mongo-rs-03
@@ -16,7 +16,7 @@ services:
     ports:
       - 27018:27017
     volumes:
-      - ./mongo/rs-02:/data/db
+      - ./mongo/instances/rs-02:/data/db
     command: --replSet mongo-rs --smallfiles --oplogSize 128
 
   mongo-rs-03:
@@ -24,5 +24,11 @@ services:
     ports:
       - 27019:27017
     volumes:
-      - ./mongo/rs-03:/data/db
+      - ./mongo/instances/rs-03:/data/db
     command: --replSet mongo-rs --smallfiles --oplogSize 128
+
+  replset:
+    build: ./mongo/replset
+    command: sh setup.sh
+    depends_on:
+      - mongo-rs-01
